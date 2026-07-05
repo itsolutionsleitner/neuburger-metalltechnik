@@ -5,6 +5,7 @@
    3. Scroll-Reveal-Animationen
    4. FAQ-Akkordeon
    5. Kontaktformular (Frontend-Bestätigung)
+   6. Cookie-Banner
 =================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -98,6 +99,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
       form.reset();
     });
+  }
+
+  /* ---------- 6. Cookie-Banner ---------- */
+  const cookieBanner = document.getElementById("cookieBanner");
+  const cookieAcceptBtn = document.getElementById("cookieAccept");
+  const cookieDeclineBtn = document.getElementById("cookieDecline");
+
+  if (cookieBanner) {
+    const consent = localStorage.getItem("cookieConsent");
+
+    if (!consent) {
+      cookieBanner.classList.add("visible");
+      requestAnimationFrame(() => {
+        cookieBanner.classList.add("show");
+      });
+    }
+
+    const hideBanner = (value) => {
+      localStorage.setItem("cookieConsent", value);
+      cookieBanner.classList.remove("show");
+      setTimeout(() => {
+        cookieBanner.classList.remove("visible");
+      }, 400);
+    };
+
+    if (cookieAcceptBtn) {
+      cookieAcceptBtn.addEventListener("click", () => hideBanner("accepted"));
+    }
+
+    if (cookieDeclineBtn) {
+      cookieDeclineBtn.addEventListener("click", () => hideBanner("declined"));
+    }
   }
 
 });
